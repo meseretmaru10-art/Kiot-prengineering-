@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KIOT Freshman Hub</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background-color: #f4f7f6; padding-bottom: 150px; }
+        .header { background-color: #456d80; color: white; padding: 15px; text-align: center; font-weight: bold; position: sticky; top: 0; z-index: 1000; }
+        .page { display: none; padding: 15px; }
+        .active { display: block; }
+        
+        /* Grid and Cards */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .card { background: white; padding: 20px; border-radius: 10px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); cursor: pointer; }
+        .card img { width: 40px; margin-bottom: 10px; }
+        .card-title { font-weight: bold; font-size: 0.9rem; }
+
+        /* PDF Viewer Container */
+        #pdf-viewer { width: 100%; height: 80vh; border: none; margin-top: 10px; }
+        .back-btn { background-color: #e74c3c; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 10px; width: 100%; font-weight: bold; }
+
+        /* Footer Style */
+        .footer { text-align: center; padding: 20px; background-color: white; border-top: 1px solid #ddd; margin-top: 20px; line-height: 1.6; }
+        .footer b { color: #456d80; font-size: 1rem; }
+
+        /* Navigation */
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; border-top: 1px solid #ddd; box-shadow: 0 -2px 5px rgba(0,0,0,0.05); }
+        .nav-item { flex: 1; text-align: center; padding: 15px; color: #777; font-weight: bold; cursor: pointer; }
+        .nav-item.active-tab { color: #456d80; border-top: 3px solid #456d80; }
+    </style>
+</head>
+<body>
+
+<div class="header">Wollo University - KIOT Freshman Hub</div>
+
+<div id="modules" class="page active">
+    <div class="grid">
+        <div class="card" onclick="openPDF('maths.pdf')">📐<br><span class="card-title">Maths</span></div>
+        <div class="card" onclick="openPDF('cpp.pdf')">💻<br><span class="card-title">C++</span></div>
+        <div class="card" onclick="openPDF('english.pdf')">📖<br><span class="card-title">English II</span></div>
+        <div class="card" onclick="openPDF('history.pdf')">⏳<br><span class="card-title">History</span></div>
+        <div class="card" onclick="openPDF('civics.pdf')">⚖️<br><span class="card-title">Civics</span></div>
+        <div class="card" onclick="openPDF('anthro.pdf')">🌍<br><span class="card-title">Anthro</span></div>
+        <div class="card" onclick="openPDF('emerging.pdf')">🚀<br><span class="card-title">Emerging</span></div>
+    </div>
+    
+    <div class="footer">
+        Developer: <b>Meseret.T</b><br>
+        ID: <b>1784/18</b><br>
+        <b>Wollo University - KIOT</b>
+    </div>
+</div>
+
+<div id="viewer-page" class="page">
+    <button class="back-btn" onclick="showPage('modules')">← ተመለስ (Back to Hub)</button>
+    <iframe id="pdf-viewer" src=""></iframe>
+</div>
+
+<div id="gpa" class="page">
+    <div style="background: white; padding: 20px; border-radius: 10px;">
+        <h3 style="text-align:center;">GPA Calculator</h3>
+        <p style="text-align:center; color:#888;">በቅርቡ የሚስተካከል...</p>
+    </div>
+
+    <div class="footer">
+        Developer: <b>Meseret.T</b><br>
+        ID: <b>1784/18</b><br>
+        <b>Wollo University - KIOT</b>
+    </div>
+</div>
+
+<div class="bottom-nav">
+    <div class="nav-item active-tab" id="tab-mod" onclick="showPage('modules')">📚 Modules</div>
+    <div class="nav-item" id="tab-gpa" onclick="showPage('gpa')">📊 GPA Calc</div>
+</div>
+
+<script>
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+        
+        document.querySelectorAll('.nav-item').forEach(t => t.classList.remove('active-tab'));
+        if(pageId === 'modules') document.getElementById('tab-mod').classList.add('active-tab');
+        if(pageId === 'gpa') document.getElementById('tab-gpa').classList.add('active-tab');
+    }
+
+    function openPDF(file) {
+        document.getElementById('pdf-viewer').src = file;
+        showPage('viewer-page');
+    }
+
+    // Register Service Worker for Offline access
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+    }
+</script>
+</body>
+</html>
